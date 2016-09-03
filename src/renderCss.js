@@ -18,6 +18,10 @@ var calcHash = function(options) {
 var makeUrls = function(options) {
 	var hash = calcHash(options)
 	var baseUrl = options.cssFontsUrl && options.cssFontsUrl.replace(/\\/g, '/')
+	// We don't want the '/' before the hash and query parameters. It breaks our CDN
+	if(baseUrl[baseUrl.length-1] === '/') {
+		baseUrl = baseUrl.substr(0, baseUrl.length-1);
+	}
 	var urls = _.map(options.types, function(type) {
 		var fontName = options.fontName + '.' + type + '?' + hash
 		return baseUrl ? urlJoin(baseUrl, fontName) : fontName
