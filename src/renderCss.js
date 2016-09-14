@@ -31,6 +31,14 @@ var makeUrls = function(options) {
 
 
 var makeSrc = function(options, urls) {
+	
+	_.forEach(urls, function(value, key, urls) {
+		// @HACK we want relative paths for app simulator
+		if(value[0] === "/") {
+			urls[key] = value.substr(1);
+		}
+	});
+	
 	var templates = {
 		eot: _.template('url("<%= url %>?#iefix") format("embedded-opentype")'),
 		woff: _.template('url("<%= url %>") format("woff")'),
