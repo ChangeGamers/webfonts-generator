@@ -19,8 +19,8 @@ var makeUrls = function(options) {
 	var hash = calcHash(options)
 	var baseUrl = options.cssFontsUrl && options.cssFontsUrl.replace(/\\/g, '/')
 	// We don't want the '/' before the hash and query parameters. It breaks our CDN
-	if(baseUrl[baseUrl.length-1] === '/') {
-		baseUrl = baseUrl.substr(0, baseUrl.length-1);
+	if (baseUrl && baseUrl[baseUrl.length - 1] === '/') {
+		baseUrl = baseUrl.substr(0, baseUrl.length - 1);
 	}
 	var urls = _.map(options.types, function(type) {
 		var fontName = options.fontName + '.' + type + '?' + hash
@@ -31,14 +31,14 @@ var makeUrls = function(options) {
 
 
 var makeSrc = function(options, urls) {
-	
+
 	_.forEach(urls, function(value, key, urls) {
 		// @HACK we want relative paths for app simulator
-		if(value[0] === "/") {
+		if (value[0] === "/") {
 			urls[key] = value.substr(1);
 		}
 	});
-	
+
 	var templates = {
 		eot: _.template('url("<%= url %>?#iefix") format("embedded-opentype")'),
 		woff2: _.template('url("<%= url %>") format("woff2")'),
